@@ -145,13 +145,9 @@ const pushBark = (title, desp) => {
   if (!bark.apiServer || !bark.sendKey) {
     return;
   }
-  // POST 请求 URL: apiServer/sendKey
-  const url = `${bark.apiServer}/${bark.sendKey}`;
-  
+  const encodedUrl = `${bark.apiServer}/${bark.sendKey}/${encodeURIComponent(title)}/${encodeURIComponent(desp)}`;
   superagent
-    .post(url)
-    .set('Content-Type', 'application/json')
-    .send({ title: title, body: desp })
+    .get(encodedUrl)
     .then((response) => {
       // 请求成功
       logger.info("Bark推送成功");
